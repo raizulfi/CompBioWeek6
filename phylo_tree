@@ -1,0 +1,17 @@
+from Bio import Phylo, SeqIO
+from Bio.Phylo.TreeConstruction import DistanceCalculator, DistanceTreeConstructor
+from Bio.Align import MultipleSeqAlignment
+
+input_file = 'sequences.fasta'
+sequences = list(SeqIO.parse(input_file, 'fasta'))
+
+alignment = MultipleSeqAlignment(sequences)
+
+calculator = DistanceCalculator('identity')
+distance_matrix = calculator.get_distance(alignment)
+
+constructor = DistanceTreeConstructor()
+tree = constructor.upgma(distance_matrix)
+
+Phylo.draw(tree)
+Phylo.draw_ascii(tree)
